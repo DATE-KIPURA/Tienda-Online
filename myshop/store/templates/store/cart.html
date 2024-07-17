@@ -1,0 +1,88 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Tu archivo CSS personalizado -->
+    <link rel="stylesheet" href="{% static 'css/stylis.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+<!-- Barra de Navegación (Navbar) -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="#">Mi Tienda</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="http://127.0.0.1:8000">Inicio <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://127.0.0.1:8000/tienda/">Tienda</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://127.0.0.1:8000/contact/">Contacto</a>
+            </li>
+            <!-- Íconos de Usuario y Carrito -->
+            <li class="nav-item">
+                <a class="nav-link" href="http://127.0.0.1:8000/login/"><i class="fas fa-user-circle"></i></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://127.0.0.1:8000/cart/"><i class="fas fa-shopping-cart"></i></a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+    <!-- Contenido Principal - Carrito -->
+    <div class="container mt-5">
+        <h2>Carrito de Compras</h2>
+        {% if cart %}
+            {% for item in cart %}
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="{{ item.product.image.url }}" class="img-fluid rounded-start" alt="{{ item.product.name }}">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.product.name }}</h5>
+                            <p class="card-text">Precio unitario: ${{ item.product.price }}</p>
+                            <p class="card-text">Cantidad: 
+                                <form method="post" action="{% url 'update_cart' %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="product_id" value="{{ item.product.id }}">
+                                    <input type="number" name="quantity" value="{{ item.quantity }}" min="1" style="width: 60px;">
+                                    <button type="submit" class="btn btn-primary btn-sm">Actualizar</button>
+                                </form>
+                            </p>
+                            <p class="card-text">Total: ${{ item.total_price }}</p>
+                            <a href="{% url 'remove_from_cart' item.product.id %}" class="btn btn-danger">Eliminar del Carrito</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>El carrito está vacío.</p>
+        {% endif %}
+    </div>
+    <footer class="bg-light text-center py-3 mt-5">
+        <p>&copy; 2024 SIGFA. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- jQuery, Popper.js, and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Tu archivo JavaScript personalizado -->
+    <script src="{% static 'js/tu_script.js' %}"></script>
+</body>
+</html>

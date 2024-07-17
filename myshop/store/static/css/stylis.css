@@ -1,0 +1,33 @@
+/* Ejemplo de estilos personalizados */
+.titulo-principal {
+    color: #333;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.producto-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+/* Más estilos según tus necesidades */
+
+/* Estilos adicionales para el carrito */
+.card {
+    margin-bottom: 20px;
+}
+.btn-purchase {
+    background-color: #28a745;
+    color: white;
+    border: none;
+}
+.btn-purchase:hover {
+    background-color: #218838;
+}
+
+.navbar-nav .nav-link .fas {
+    font-size: 1.25em; /* Ajusta el tamaño del ícono según sea necesario */
+    vertical-align: middle; /* Alinea verticalmente los íconos con el texto */
+}

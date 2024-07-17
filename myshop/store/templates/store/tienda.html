@@ -1,0 +1,90 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda - Mi Tienda</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Tu archivo CSS personalizado -->
+    <link rel="stylesheet" href="{% static 'css/stylis.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+<!-- Barra de Navegación (Navbar) -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="#">SIGFA</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="http://127.0.0.1:8000">Inicio <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://127.0.0.1:8000/tienda/">Tienda</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://127.0.0.1:8000/contact/">Contacto</a>
+            </li>
+            <!-- Íconos de Usuario y Carrito -->
+            <li class="nav-item">
+                <a class="nav-link" href="http://127.0.0.1:8000/login/"><i class="fas fa-user-circle"></i></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'cart' %}"><i class="fas fa-shopping-cart"></i></a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+    <!-- Contenido Principal - Tienda -->
+<div class="container mt-5">
+    <h2>Nuestra Tienda</h2>
+    <div class="row">
+        {% for product in products %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img class="card-img-top" src="{{ product.image.url }}" alt="{{ product.name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text">{{ product.description }}</p>
+                    <p class="card-text">Precio: ${{ product.price }}</p>
+                    <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary">Agregar al Carrito</a>
+                    <!-- Agrega más detalles del producto según sea necesario -->
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Paginación -->
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center mt-4">
+            {% if products.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page=1">&laquo;</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ products.previous_page_number }}">{{ products.previous_page_number }}</a></li>
+            {% endif %}
+            <li class="page-item active"><a class="page-link" href="?page={{ products.number }}">{{ products.number }}</a></li>
+            {% if products.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ products.next_page_number }}">{{ products.next_page_number }}</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ products.paginator.num_pages }}">&raquo;</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
+<footer class="bg-light text-center py-3 mt-5">
+    <p>&copy; 2024 SIGFA. Todos los derechos reservados.</p>
+</footer>
+    <!-- jQuery, Popper.js, and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Tu archivo JavaScript personalizado -->
+    <script src="{% static 'js/tu_script.js' %}"></script>
+</body>
+</html>
